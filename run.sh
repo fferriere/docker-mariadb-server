@@ -21,6 +21,12 @@ if [ "$NB_ROWS" -gt 0 ]; then
     exit 1
 fi
 
+NB_ROWS=$(docker ps -a | grep -w "$DATA_NAME" | wc -l)
+if [ "$NB_ROWS" -eq 0 ]; then
+    echo "Container '$DATA_NAME' doesn't exists !" >&2
+    exit 2
+fi
+
 NB_ROWS=$(docker ps -a | grep -w "$NAME" | wc -l)
 if [ "$NB_ROWS" -gt 0 ]; then
     docker rm "$NAME"
